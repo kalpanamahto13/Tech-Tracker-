@@ -4,85 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Learning Journey Tracker - Domains</title>
+       <link rel="stylesheet" href="style.css" />
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #f5f3ff 0%, #fef3f3 50%, #f0fdfa 100%);
-            min-height: 100vh;
-            color: #1f2937;
-        }
-
-        /* Navigation */
-        nav {
-            background: rgba(255, 255, 255, 0.9);
-            -webkit-backdrop-filter: blur(10px);
-            backdrop-filter: blur(10px);
-            padding: 1rem 2rem;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .nav-brand {
-            font-size: 1.5rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #8b5cf6, #ec4899);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 1.5rem;
-            list-style: none;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: #6b7280;
-            font-weight: 500;
-            transition: color 0.3s;
-            cursor: pointer;
-        }
-
-        .nav-links a:hover, .nav-links a.active {
-            color: #8b5cf6;
-        }
-
-        /* Container */
-        .container {
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 0 2rem;
-        }
-
-        /* Cards */
-        .card {
-            background: rgba(255, 255, 255, 0.8);
-            -webkit-backdrop-filter: blur(10px);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 1.5rem;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
-        }
-
+  
         /* Domain Dashboard */
         .domain-dashboard {
             display: grid;
@@ -457,14 +381,190 @@
             transform: scale(1.05);
         }
 
-        @media (max-width: 768px) {
-            .domain-dashboard {
-                grid-template-columns: 1fr;
+        /* Mobile Styles */
+        @media (max-width: 480px) {
+            nav {
+                padding: 1rem;
+            }
+
+            .nav-brand {
+                font-size: 1.25rem;
             }
 
             .nav-links {
+                gap: 0.5rem;
+                font-size: 0.75rem;
+            }
+
+            .container {
+                padding: 0 1rem;
+            }
+
+            .domain-dashboard {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .domain-sidebar {
+                order: 2;
+            }
+
+            .domain-content {
+                order: 1;
+            }
+
+            .domain-nav-item {
+                padding: 0.75rem;
+                font-size: 0.875rem;
+            }
+
+            .domain-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+
+            .domain-header h2 {
+                font-size: 1.25rem;
+            }
+
+            .domain-tabs {
+                gap: 0.5rem;
+            }
+
+            .tab-btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.875rem;
+            }
+
+            .roadmap-grid {
+                grid-template-columns: 1fr;
+                gap: 0.75rem;
+            }
+
+            .milestone {
+                padding: 0.75rem;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+
+            .milestone-status {
+                align-self: flex-end;
+            }
+
+            .milestone-btn {
+                align-self: stretch;
+                margin-top: 0.5rem;
+            }
+
+            .chart-container {
+                padding: 1rem;
+            }
+
+            .simple-chart {
+                height: 150px;
+                gap: 0.5rem;
+            }
+
+            .chart-bar {
+                font-size: 0.75rem;
+                padding-bottom: 0.25rem;
+            }
+
+            .modal-content {
+                width: 95%;
+                padding: 1.5rem;
+                max-height: 90vh;
+            }
+
+            .modal-header {
+                margin-bottom: 1rem;
+            }
+
+            .modal-title {
+                font-size: 1.25rem;
+            }
+
+            .form-group {
+                margin-bottom: 1rem;
+            }
+
+            .color-picker {
+                gap: 0.25rem;
+                flex-wrap: wrap;
+            }
+
+            .color-option {
+                width: 35px;
+                height: 35px;
+            }
+
+            .modal-actions {
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+
+            .btn-secondary {
+                order: 2;
+            }
+        }
+
+        /* Tablet Styles */
+        @media (min-width: 481px) and (max-width: 768px) {
+            .nav-links {
                 gap: 0.75rem;
                 font-size: 0.875rem;
+            }
+
+            .container {
+                padding: 0 1.5rem;
+            }
+
+            .domain-dashboard {
+                grid-template-columns: 200px 1fr;
+                gap: 1.5rem;
+            }
+
+            .domain-nav-item {
+                padding: 0.875rem;
+            }
+
+            .roadmap-grid {
+                grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+                gap: 0.875rem;
+            }
+
+            .milestone {
+                padding: 0.875rem;
+            }
+
+            .simple-chart {
+                height: 180px;
+            }
+
+            .modal-content {
+                width: 90%;
+                max-width: 450px;
+            }
+        }
+
+        /* Desktop Styles */
+        @media (min-width: 1024px) {
+            .container {
+                max-width: 1400px;
+            }
+
+            .domain-dashboard {
+                grid-template-columns: 280px 1fr;
+            }
+
+            .roadmap-grid {
+                grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            }
+
+            .simple-chart {
+                height: 220px;
             }
         }
     </style>
@@ -482,6 +582,10 @@
             <li><a href="focus.html">Focus</a></li>
             <li><a href="profile.html">Profile</a></li>
         </ul>
+        <div class="hamburger" onclick="toggleMobileMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
     </nav>
 
     <div class="container">
@@ -1029,5 +1133,6 @@
             });
         });
     </script>
+    <script src="script.js"></script>
 </body>
 </html>
