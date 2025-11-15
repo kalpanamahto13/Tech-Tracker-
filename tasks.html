@@ -215,7 +215,6 @@
             <li><a href="analytics.html">Analytics</a></li>
             <li><a href="focus.html">Focus</a></li>
             <li><a href="profile.html">Profile</a></li>
-
         </ul>
         <div class="hamburger" onclick="toggleMenu()">
             <span></span>
@@ -315,8 +314,8 @@
                         <div style="display: flex; gap: 0.5rem; align-items: center;">
                             <span class="tech-badge" style="background: rgba(59, 130, 246, 0.2); padding: 0.25rem 0.75rem;">Web Dev</span>
                             <span class="tech-badge status-badge" style="background: rgba(16, 185, 129, 0.2); padding: 0.25rem 0.75rem;" data-status="in-progress">In Progress</span>
-                            <button class="btn mark-complete-btn" onclick="markComplete(this)">Mark Complete</button>
-                            <button class="delete-btn" onclick="deleteTask(this)">🗑️</button>
+                            <button class="btn mark-complete-btn" onclick="markComplete(this)" aria-label="Mark task as completed">Mark Complete</button>
+                            <button class="delete-btn" onclick="deleteTask(this)" aria-label="Delete task">🗑️</button>
                         </div>
                     </div>
                     <div class="task-item" style="justify-content: space-between;">
@@ -327,8 +326,8 @@
                         <div style="display: flex; gap: 0.5rem; align-items: center;">
                             <span class="tech-badge" style="background: rgba(245, 158, 11, 0.2); padding: 0.25rem 0.75rem;">AI/ML</span>
                             <span class="tech-badge status-badge" style="background: rgba(239, 68, 68, 0.2); padding: 0.25rem 0.75rem;" data-status="pending">Pending</span>
-                            <button class="btn mark-complete-btn" onclick="markComplete(this)">Mark Complete</button>
-                            <button class="delete-btn" onclick="deleteTask(this)">🗑️</button>
+                            <button class="btn mark-complete-btn" onclick="markComplete(this)" aria-label="Mark task as completed">Mark Complete</button>
+                            <button class="delete-btn" onclick="deleteTask(this)" aria-label="Delete task">🗑️</button>
                         </div>
                     </div>
                 </div>
@@ -376,7 +375,7 @@
                 const taskStatus = document.getElementById('taskStatus').value;
                 taskItem.innerHTML = `
                     <div style="display: flex; gap: 0.75rem; align-items: center;">
-                        <input type="checkbox" class="task-checkbox" onchange="toggleTaskStatus(this)">
+                        <input type="checkbox" class="task-checkbox" onchange="toggleTaskStatus(this)" aria-label="Mark task as completed">
                         <span>${taskName}</span>
                     </div>
                     <div style="display: flex; gap: 0.5rem; align-items: center;">
