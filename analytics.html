@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning Journey Tracker - Analytics</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #f5f3ff 0%, #fef3f3 50%, #f0fdfa 100%);
+            min-height: 100vh;
+            color: #1f2937;
+        }
+
+        /* Navigation */
+        nav {
+            background: rgba(255, 255, 255, 0.9);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-brand {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #8b5cf6, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #6b7280;
+            font-weight: 500;
+            transition: color 0.3s;
+            cursor: pointer;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: #8b5cf6;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        /* Cards */
+        .card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        /* Analytics */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 3rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #8b5cf6, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            color: #6b7280;
+            margin-top: 0.5rem;
+        }
+
+        .badge-container {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .badge {
+            padding: 0.5rem 1rem;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(236, 72, 153, 0.2));
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        /* Quote Section */
+        .quote-section {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(236, 72, 153, 0.1));
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .quote-text {
+            font-size: 1.25rem;
+            font-style: italic;
+            color: #4b5563;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                gap: 0.75rem;
+                font-size: 0.875rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-brand">📚 Learn Track</div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="domains.html">Domains</a></li>
+            <li><a href="tasks.html">Tasks</a></li>
+            <li><a href="tech.html">Tech Stack</a></li>
+            <li><a href="analytics.html" class="active">Analytics</a></li>
+            <li><a href="focus.html">Focus</a></li>
+            <li><a href="profile.html">Profile</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <!-- ANALYTICS PAGE -->
+        <div id="analytics" class="page active">
+            <h1 style="margin-bottom: 2rem;">📈 Analytics & Insights</h1>
+
+            <div class="stats-grid">
+                <div class="card stat-card">
+                    <div class="stat-value">0</div>
+                    <div class="stat-label">Learning Hours This Week</div>
+                </div>
+                <div class="card stat-card">
+                    <div class="stat-value">0%</div>
+                    <div class="stat-label">Task Completion Rate</div>
+                </div>
+                <div class="card stat-card">
+                    <div class="stat-value">0</div>
+                    <div class="stat-label">Day Streak 🔥</div>
+                </div>
+                <div class="card stat-card">
+                    <div class="stat-value">0</div>
+                    <div class="stat-label">Tasks Completed</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 style="margin-bottom: 1.5rem;">🏆 Your Badges</h3>
+                <div class="badge-container">
+                    <div class="badge">🚀 First Steps</div>
+                    <div class="badge">📚 Knowledge Seeker</div>
+                    <div class="badge">⚡ Speed Learner</div>
+                    <div class="badge">🔥 Week Streak</div>
+                    <div class="badge">🎯 Goal Achiever</div>
+                </div>
+            </div>
+
+            <div class="quote-section" style="margin-top: 2rem;">
+                <p class="quote-text">💬 "You're becoming 1% better every day."</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

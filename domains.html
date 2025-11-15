@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning Journey Tracker - Domains</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #f5f3ff 0%, #fef3f3 50%, #f0fdfa 100%);
+            min-height: 100vh;
+            color: #1f2937;
+        }
+
+        /* Navigation */
+        nav {
+            background: rgba(255, 255, 255, 0.9);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-brand {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #8b5cf6, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #6b7280;
+            font-weight: 500;
+            transition: color 0.3s;
+            cursor: pointer;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: #8b5cf6;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        /* Cards */
+        .card {
+            background: rgba(255, 255, 255, 0.8);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        /* Domain Dashboard */
+        .domain-dashboard {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .domain-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .domain-nav-item {
+            padding: 1rem;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.6);
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .domain-nav-item:hover, .domain-nav-item.active {
+            background: rgba(139, 92, 246, 0.1);
+            border-left: 4px solid #8b5cf6;
+        }
+
+        .domain-content {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .domain-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .domain-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .tab-btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.6);
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, #8b5cf6, #ec4899);
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .roadmap-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .milestone {
+            padding: 1rem;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.8);
+            text-align: center;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .milestone-status {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            background: rgba(239, 68, 68, 0.2);
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #ef4444;
+        }
+
+        .milestone.completed .status-badge {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22c55e;
+        }
+
+        .milestone.current .status-badge {
+            background: rgba(139, 92, 246, 0.2);
+            color: #8b5cf6;
+        }
+
+        .milestone-btn {
+            margin-top: 0.75rem;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .milestone.completed .milestone-btn {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+            cursor: default;
+        }
+
+        .milestone.current .milestone-btn,
+        .milestone.pending .milestone-btn {
+            background: linear-gradient(135deg, #8b5cf6, #ec4899);
+            color: white;
+        }
+
+        .milestone.current .milestone-btn:hover,
+        .milestone.pending .milestone-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .milestone.completed {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(16, 185, 129, 0.1));
+            border: 2px solid #10b981;
+        }
+
+        .milestone.current {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(139, 92, 246, 0.1));
+            border: 2px solid #8b5cf6;
+        }
+
+        .milestone.pending {
+            background: rgba(255, 255, 255, 0.6);
+            border: 2px solid #e5e7eb;
+        }
+
+        .chart-container {
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .simple-chart {
+            height: 200px;
+            display: flex;
+            align-items: end;
+            justify-content: space-around;
+            gap: 1rem;
+        }
+
+        .chart-bar {
+            flex: 1;
+            background: linear-gradient(135deg, #8b5cf6, #ec4899);
+            border-radius: 5px 5px 0 0;
+            min-height: 20px;
+            display: flex;
+            align-items: end;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 0.875rem;
+            padding-bottom: 0.5rem;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: #e5e7eb;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--domain-color);
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+
+        .task-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            background: #f9fafb;
+            border-radius: 10px;
+            margin-bottom: 0.5rem;
+        }
+
+        .task-checkbox {
+            width: 20px;
+            height: 20px;
+            accent-color: #8b5cf6;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #8b5cf6, #ec4899);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: rgba(255, 255, 255, 0.95);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #8b5cf6, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #6b7280;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: background 0.2s;
+        }
+
+        .close-btn:hover {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #8b5cf6;
+        }
+
+        .form-textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            font-size: 1rem;
+            min-height: 100px;
+            resize: vertical;
+            transition: border-color 0.2s;
+        }
+
+        .form-textarea:focus {
+            outline: none;
+            border-color: #8b5cf6;
+        }
+
+        .color-picker {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .color-option {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 3px solid transparent;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .color-option.selected {
+            border-color: #1f2937;
+            transform: scale(1.1);
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            margin-top: 2rem;
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.8);
+            color: #6b7280;
+            border: 2px solid #e5e7eb;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 1);
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 768px) {
+            .domain-dashboard {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-links {
+                gap: 0.75rem;
+                font-size: 0.875rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-brand">📚 Learn Track</div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="domains.html" class="active">Domains</a></li>
+            <li><a href="tasks.html">Tasks</a></li>
+            <li><a href="tech.html">Tech Stack</a></li>
+            <li><a href="analytics.html">Analytics</a></li>
+            <li><a href="focus.html">Focus</a></li>
+            <li><a href="profile.html">Profile</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <!-- DOMAINS PAGE -->
+        <div id="domains" class="page active">
+            <h1 style="margin-bottom: 2rem;">📚 Domain Dashboard</h1>
+            <div class="domain-dashboard">
+                <div class="domain-sidebar">
+                    <div class="domain-nav-item active" onclick="selectDomain('webdev')">
+                        <span>💻</span>
+                        <span>Web Development</span>
+                    </div>
+                    <div class="domain-nav-item" onclick="selectDomain('python')">
+                        <span>🐍</span>
+                        <span>Python Programming</span>
+                    </div>
+                    <div class="domain-nav-item" onclick="selectDomain('datascience')">
+                        <span>📊</span>
+                        <span>Data Science</span>
+                    </div>
+                    <div class="domain-nav-item" onclick="selectDomain('aiml')">
+                        <span>🤖</span>
+                        <span>AI/ML</span>
+                    </div>
+                    <div class="domain-nav-item" onclick="selectDomain('cyber')">
+                        <span>🔐</span>
+                        <span>Cybersecurity</span>
+                    </div>
+                    <div class="domain-nav-item" onclick="selectDomain('dsajava')">
+                        <span>📚</span>
+                        <span>DSA In Java</span>
+                    </div>
+                    <button class="btn" style="width: 100%; margin-top: 1rem; background: rgba(16, 185, 129, 0.8);" onclick="openAddDomainModal()">➕ Add Domain</button>
+                </div>
+
+                <div class="domain-content">
+                    <div class="domain-header">
+                        <h2 id="domainTitle">💻 Web Development - 72% Complete</h2>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="domainProgress" style="width: 72%; background: #3b82f6;"></div>
+                        </div>
+                    </div>
+
+                    <div class="domain-tabs">
+                        <button class="tab-btn active" onclick="switchTab('roadmap')">🧩 Roadmap View</button>
+                        <button class="tab-btn" onclick="switchTab('tasks')">✅ Task Tracker</button>
+                        <button class="tab-btn" onclick="switchTab('progress')">📊 Progress Chart</button>
+                    </div>
+
+                    <div id="roadmap" class="tab-content active">
+                        <div class="card">
+                            <h3 style="margin-bottom: 1.5rem;">🧩 Learning Roadmap</h3>
+                            <div class="roadmap-grid" id="roadmapGrid">
+                                <div class="milestone completed">
+                                    <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">✓</div>
+                                    <div style="font-weight: 600;">HTML/CSS</div>
+                                    <div style="font-size: 0.875rem; color: #6b7280;">Foundation</div>
+                                </div>
+                                <div class="milestone completed">
+                                    <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">✓</div>
+                                    <div style="font-weight: 600;">JavaScript</div>
+                                    <div style="font-size: 0.875rem; color: #6b7280;">Programming</div>
+                                </div>
+                                <div class="milestone current">
+                                    <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">→</div>
+                                    <div style="font-weight: 600;">React</div>
+                                    <div style="font-size: 0.875rem; color: #6b7280;">Framework</div>
+                                </div>
+                                <div class="milestone pending">
+                                    <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">○</div>
+                                    <div style="font-weight: 600;">Node.js</div>
+                                    <div style="font-size: 0.875rem; color: #6b7280;">Backend</div>
+                                </div>
+                                <div class="milestone pending">
+                                    <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">○</div>
+                                    <div style="font-weight: 600;">Full Stack</div>
+                                    <div style="font-size: 0.875rem; color: #6b7280;">Complete</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="tasks" class="tab-content">
+                        <div class="card">
+                            <h3 style="margin-bottom: 1.5rem;">✅ Current Tasks</h3>
+                            <div id="domainTaskList">
+                                <div class="task-item">
+                                    <input type="checkbox" class="task-checkbox">
+                                    <span>Build React Portfolio</span>
+                                </div>
+                                <div class="task-item">
+                                    <input type="checkbox" class="task-checkbox">
+                                    <span>Learn React Hooks</span>
+                                </div>
+                                <div class="task-item">
+                                    <input type="checkbox" class="task-checkbox">
+                                    <span>Complete Tailwind CSS</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="progress" class="tab-content">
+                        <div class="chart-container">
+                            <h3 style="margin-bottom: 1.5rem;">📊 Progress Overview</h3>
+                            <div class="simple-chart">
+                                <div class="chart-bar" style="height: 72%;">Web Dev<br/>72%</div>
+                                <div class="chart-bar" style="height: 45%;">Data Sci<br/>45%</div>
+                                <div class="chart-bar" style="height: 20%;">AI/ML<br/>20%</div>
+                                <div class="chart-bar" style="height: 10%;">Cyber<br/>10%</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Domain Modal -->
+    <div id="addDomainModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">➕ Add New Domain</h2>
+                <button class="close-btn" onclick="closeAddDomainModal()">×</button>
+            </div>
+
+            <form id="addDomainForm">
+                <div class="form-group">
+                    <label class="form-label">Domain Name</label>
+                    <input type="text" class="form-input" id="domainName" placeholder="e.g., Mobile Development" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Domain Icon</label>
+                    <input type="text" class="form-input" id="domainIcon" placeholder="e.g., 📱" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Domain Color</label>
+                    <div class="color-picker" id="colorPicker">
+                        <div class="color-option" style="background: #3b82f6;" data-color="#3b82f6"></div>
+                        <div class="color-option" style="background: #10b981;" data-color="#10b981"></div>
+                        <div class="color-option" style="background: #f59e0b;" data-color="#f59e0b"></div>
+                        <div class="color-option" style="background: #ef4444;" data-color="#ef4444"></div>
+                        <div class="color-option" style="background: #8b5cf6;" data-color="#8b5cf6"></div>
+                        <div class="color-option" style="background: #f97316;" data-color="#f97316"></div>
+                        <div class="color-option" style="background: #06b6d4;" data-color="#06b6d4"></div>
+                        <div class="color-option" style="background: #84cc16;" data-color="#84cc16"></div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Initial Milestones (one per line)</label>
+                    <textarea class="form-textarea" id="domainMilestones" placeholder="HTML/CSS Basics&#10;JavaScript Fundamentals&#10;React Framework&#10;Node.js Backend" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Initial Tasks (one per line)</label>
+                    <textarea class="form-textarea" id="domainTasks" placeholder="Build Portfolio Website&#10;Learn React Hooks&#10;Complete Mobile App" required></textarea>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeAddDomainModal()">Cancel</button>
+                    <button type="submit" class="btn">Add Domain</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Domain Data
+        const defaultDomainData = {
+            webdev: {
+                title: '💻 Web Development',
+                progress: 72,
+                color: '#3b82f6',
+                milestones: [
+                    { status: 'completed', title: 'HTML/CSS', subtitle: 'Foundation' },
+                    { status: 'completed', title: 'JavaScript', subtitle: 'Programming' },
+                    { status: 'current', title: 'React', subtitle: 'Framework' },
+                    { status: 'pending', title: 'Node.js', subtitle: 'Backend' },
+                    { status: 'pending', title: 'Full Stack', subtitle: 'Complete' }
+                ],
+                tasks: [
+                    'Build React Portfolio',
+                    'Learn React Hooks',
+                    'Complete Tailwind CSS'
+                ],
+                chartData: [
+                    { label: 'Frontend', value: 80 },
+                    { label: 'Backend', value: 60 },
+                    { label: 'Database', value: 40 },
+                    { label: 'Deployment', value: 30 }
+                ]
+            },
+            python: {
+                title: '🐍 Python Programming',
+                progress: 60,
+                color: '#3776ab',
+                milestones: [
+                    { status: 'completed', title: 'Python Basics', subtitle: 'Syntax & Variables' },
+                    { status: 'completed', title: 'Data Structures', subtitle: 'Lists, Dicts, Sets' },
+                    { status: 'current', title: 'Object-Oriented', subtitle: 'Classes & Methods' },
+                    { status: 'pending', title: 'Libraries', subtitle: 'NumPy, Pandas' },
+                    { status: 'pending', title: 'Advanced Topics', subtitle: 'Decorators, Async' }
+                ],
+                tasks: [
+                    'Complete OOP Tutorial',
+                    'Build Python CLI App',
+                    'Learn NumPy Basics'
+                ],
+                chartData: [
+                    { label: 'Basics', value: 90 },
+                    { label: 'OOP', value: 70 },
+                    { label: 'Libraries', value: 50 },
+                    { label: 'Advanced', value: 30 }
+                ]
+            },
+            datascience: {
+                title: '📊 Data Science',
+                progress: 45,
+                color: '#10b981',
+                milestones: [
+                    { status: 'completed', title: 'Python Basics', subtitle: 'Programming' },
+                    { status: 'completed', title: 'Pandas/NumPy', subtitle: 'Data Manipulation' },
+                    { status: 'current', title: 'Machine Learning', subtitle: 'Algorithms' },
+                    { status: 'pending', title: 'Deep Learning', subtitle: 'Neural Networks' },
+                    { status: 'pending', title: 'Big Data', subtitle: 'Advanced Analytics' }
+                ],
+                tasks: [
+                    'Complete Pandas Tutorial',
+                    'Build ML Model',
+                    'Data Visualization Project'
+                ],
+                chartData: [
+                    { label: 'Statistics', value: 70 },
+                    { label: 'ML Algorithms', value: 50 },
+                    { label: 'Data Viz', value: 60 },
+                    { label: 'Big Data', value: 20 }
+                ]
+            },
+            aiml: {
+                title: '🤖 AI/ML',
+                progress: 20,
+                color: '#f59e0b',
+                milestones: [
+                    { status: 'completed', title: 'Python & Math', subtitle: 'Foundation' },
+                    { status: 'current', title: 'Supervised Learning', subtitle: 'Classification' },
+                    { status: 'pending', title: 'Neural Networks', subtitle: 'Deep Learning' },
+                    { status: 'pending', title: 'Computer Vision', subtitle: 'CNNs' },
+                    { status: 'pending', title: 'NLP', subtitle: 'Transformers' }
+                ],
+                tasks: [
+                    'Train CNN Model',
+                    'Learn TensorFlow',
+                    'NLP Project'
+                ],
+                chartData: [
+                    { label: 'ML Basics', value: 40 },
+                    { label: 'Deep Learning', value: 15 },
+                    { label: 'Computer Vision', value: 10 },
+                    { label: 'NLP', value: 5 }
+                ]
+            },
+            cyber: {
+                title: '🔐 Cybersecurity',
+                progress: 10,
+                color: '#ef4444',
+                milestones: [
+                    { status: 'current', title: 'Network Security', subtitle: 'Basics' },
+                    { status: 'pending', title: 'Cryptography', subtitle: 'Encryption' },
+                    { status: 'pending', title: 'Ethical Hacking', subtitle: 'Penetration Testing' },
+                    { status: 'pending', title: 'Web Security', subtitle: 'OWASP' },
+                    { status: 'pending', title: 'Incident Response', subtitle: 'Forensics' }
+                ],
+                tasks: [
+                    'Learn Network Protocols',
+                    'Basic Cryptography',
+                    'Security Tools Setup'
+                ],
+                chartData: [
+                    { label: 'Network Sec', value: 20 },
+                    { label: 'Crypto', value: 5 },
+                    { label: 'Web Sec', value: 10 },
+                    { label: 'Forensics', value: 0 }
+                ]
+            },
+            dsajava: {
+                title: '📚 DSA In Java',
+                progress: 0,
+                color: '#f97316',
+                milestones: [
+                    { status: 'pending', title: 'Java Basics', subtitle: 'Syntax & OOP' },
+                    { status: 'pending', title: 'Arrays & Strings', subtitle: 'Data Structures' },
+                    { status: 'pending', title: 'Linked Lists', subtitle: 'Dynamic Structures' },
+                    { status: 'pending', title: 'Stacks & Queues', subtitle: 'Linear Structures' },
+                    { status: 'pending', title: 'Trees & Graphs', subtitle: 'Advanced Structures' }
+                ],
+                tasks: [
+                    'Learn Java Fundamentals',
+                    'Implement Basic Algorithms',
+                    'Solve LeetCode Problems'
+                ],
+                chartData: [
+                    { label: 'Basics', value: 0 },
+                    { label: 'Arrays', value: 0 },
+                    { label: 'Trees', value: 0 },
+                    { label: 'Graphs', value: 0 }
+                ]
+            }
+        };
+
+        let domainData = { ...defaultDomainData };
+        const saved = localStorage.getItem('domainData');
+        if (saved) {
+            const savedData = JSON.parse(saved);
+            Object.assign(domainData, savedData);
+        }
+
+        // Domain Selection
+        function selectDomain(domain) {
+            const items = document.querySelectorAll('.domain-nav-item');
+            items.forEach(item => item.classList.remove('active'));
+            event.target.closest('.domain-nav-item').classList.add('active');
+
+            const data = domainData[domain];
+
+            // Update domain title and progress
+            document.getElementById('domainTitle').textContent = `${data.title} - ${data.progress}% Complete`;
+            const progressFill = document.getElementById('domainProgress');
+            progressFill.style.width = `${data.progress}%`;
+            progressFill.style.background = data.color;
+
+            // Update roadmap milestones
+            const roadmapGrid = document.getElementById('roadmapGrid');
+            roadmapGrid.innerHTML = '';
+            data.milestones.forEach(milestone => {
+                const milestoneDiv = document.createElement('div');
+                milestoneDiv.className = `milestone ${milestone.status}`;
+                milestoneDiv.innerHTML = `
+                    <div class="milestone-status">
+                        <div style="font-size: 1.5rem;">
+                            ${milestone.status === 'completed' ? '✓' : milestone.status === 'current' ? '→' : '○'}
+                        </div>
+                        <span class="status-badge">${milestone.status === 'completed' ? 'Completed' : milestone.status === 'current' ? 'In Progress' : 'Pending'}</span>
+                    </div>
+                    <div style="font-weight: 600;">${milestone.title}</div>
+                    <div style="font-size: 0.875rem; color: #6b7280;">${milestone.subtitle}</div>
+                    <button class="milestone-btn" onclick="completeMilestone('${milestone.title}', '${milestone.status}')">
+                        ${milestone.status === 'completed' ? 'Completed' : 'Mark Complete'}
+                    </button>
+                `;
+                roadmapGrid.appendChild(milestoneDiv);
+            });
+
+            // Update task list
+            const taskList = document.getElementById('domainTaskList');
+            taskList.innerHTML = '';
+            data.tasks.forEach(task => {
+                const taskItem = document.createElement('div');
+                taskItem.className = 'task-item';
+                taskItem.innerHTML = `
+                    <input type="checkbox" class="task-checkbox">
+                    <span>${task}</span>
+                `;
+                taskList.appendChild(taskItem);
+            });
+
+            // Update progress chart
+            const simpleChart = document.querySelector('.simple-chart');
+            simpleChart.innerHTML = '';
+            data.chartData.forEach(item => {
+                const chartBar = document.createElement('div');
+                chartBar.className = 'chart-bar';
+                chartBar.style.height = `${item.value}%`;
+                chartBar.innerHTML = `${item.label}<br/>${item.value}%`;
+                simpleChart.appendChild(chartBar);
+            });
+        }
+
+        // Tab Switching
+        function switchTab(tabId) {
+            const tabs = document.querySelectorAll('.tab-content');
+            const buttons = document.querySelectorAll('.tab-btn');
+
+            tabs.forEach(tab => tab.classList.remove('active'));
+            buttons.forEach(btn => btn.classList.remove('active'));
+
+            document.getElementById(tabId).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // Complete Milestone Function
+        function completeMilestone(title, status) {
+            // Find the current domain
+            const activeDomain = document.querySelector('.domain-nav-item.active span:last-child').textContent.trim();
+            const domainKey = activeDomain === 'Web Development' ? 'webdev' :
+                             activeDomain === 'Python Programming' ? 'python' :
+                             activeDomain === 'Data Science' ? 'datascience' :
+                             activeDomain === 'AI/ML' ? 'aiml' :
+                             activeDomain === 'Cybersecurity' ? 'cyber' : 'dsajava';
+
+            // Update the milestone status in data
+            const milestone = domainData[domainKey].milestones.find(m => m.title === title);
+            if (milestone) {
+                // Toggle status: if completed, revert to current; if not completed, mark as completed
+                const newStatus = status === 'completed' ? 'current' : 'completed';
+                milestone.status = newStatus;
+
+                // Recalculate progress
+                const totalMilestones = domainData[domainKey].milestones.length;
+                const completedMilestones = domainData[domainKey].milestones.filter(m => m.status === 'completed').length;
+                domainData[domainKey].progress = Math.round((completedMilestones / totalMilestones) * 100);
+
+                // Update the domain title and progress bar
+                document.getElementById('domainTitle').textContent = `${domainData[domainKey].title} - ${domainData[domainKey].progress}% Complete`;
+                const progressFill = document.getElementById('domainProgress');
+                progressFill.style.width = `${domainData[domainKey].progress}%`;
+
+                // Save to localStorage
+                localStorage.setItem('domainData', JSON.stringify(domainData));
+
+                // Update the specific milestone div appearance
+                const milestoneDiv = event.target.closest('.milestone');
+                milestoneDiv.className = `milestone ${newStatus}`;
+                milestoneDiv.innerHTML = `
+                    <div class="milestone-status">
+                        <div style="font-size: 1.5rem;">
+                            ${newStatus === 'completed' ? '✓' : newStatus === 'current' ? '→' : '○'}
+                        </div>
+                        <span class="status-badge">${newStatus === 'completed' ? 'Completed' : newStatus === 'current' ? 'In Progress' : 'Pending'}</span>
+                    </div>
+                    <div style="font-weight: 600;">${title}</div>
+                    <div style="font-size: 0.875rem; color: #6b7280;">${milestone.subtitle}</div>
+                    <button class="milestone-btn" onclick="completeMilestone('${title}', '${newStatus}')">
+                        ${newStatus === 'completed' ? 'Completed' : 'Mark Complete'}
+                    </button>
+                `;
+            }
+        }
+
+        // Modal Functions
+        function openAddDomainModal() {
+            document.getElementById('addDomainModal').classList.add('active');
+            // Reset form
+            document.getElementById('addDomainForm').reset();
+            // Reset color selection
+            document.querySelectorAll('.color-option').forEach(option => option.classList.remove('selected'));
+        }
+
+        function closeAddDomainModal() {
+            document.getElementById('addDomainModal').classList.remove('active');
+        }
+
+        // Color Picker Functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const colorOptions = document.querySelectorAll('.color-option');
+            colorOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    colorOptions.forEach(opt => opt.classList.remove('selected'));
+                    this.classList.add('selected');
+                });
+            });
+
+            // Form Submission
+            document.getElementById('addDomainForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                const domainName = document.getElementById('domainName').value.trim();
+                const domainIcon = document.getElementById('domainIcon').value.trim();
+                const selectedColor = document.querySelector('.color-option.selected');
+                const milestonesText = document.getElementById('domainMilestones').value.trim();
+                const tasksText = document.getElementById('domainTasks').value.trim();
+
+                if (!domainName || !domainIcon || !selectedColor || !milestonesText || !tasksText) {
+                    alert('Please fill in all fields and select a color.');
+                    return;
+                }
+
+                const color = selectedColor.getAttribute('data-color');
+
+                // Process milestones
+                const milestones = milestonesText.split('\n')
+                    .map(line => line.trim())
+                    .filter(line => line.length > 0)
+                    .map((line, index) => ({
+                        status: index === 0 ? 'current' : 'pending',
+                        title: line,
+                        subtitle: 'Learning Phase'
+                    }));
+
+                // Process tasks
+                const tasks = tasksText.split('\n')
+                    .map(line => line.trim())
+                    .filter(line => line.length > 0);
+
+                // Generate unique key
+                const domainKey = domainName.toLowerCase().replace(/[^a-z0-9]/g, '');
+
+                // Create new domain data
+                const newDomain = {
+                    title: `${domainIcon} ${domainName}`,
+                    progress: 0,
+                    color: color,
+                    milestones: milestones,
+                    tasks: tasks,
+                    chartData: [
+                        { label: 'Phase 1', value: 0 },
+                        { label: 'Phase 2', value: 0 },
+                        { label: 'Phase 3', value: 0 },
+                        { label: 'Complete', value: 0 }
+                    ]
+                };
+
+                // Add to domainData
+                domainData[domainKey] = newDomain;
+
+                // Save to localStorage
+                localStorage.setItem('domainData', JSON.stringify(domainData));
+
+                // Add to sidebar
+                const sidebar = document.querySelector('.domain-sidebar');
+                const addButton = sidebar.querySelector('button');
+                const newDomainItem = document.createElement('div');
+                newDomainItem.className = 'domain-nav-item';
+                newDomainItem.setAttribute('onclick', `selectDomain('${domainKey}')`);
+                newDomainItem.innerHTML = `
+                    <span>${domainIcon}</span>
+                    <span>${domainName}</span>
+                `;
+                sidebar.insertBefore(newDomainItem, addButton);
+
+                // Close modal
+                closeAddDomainModal();
+
+                // Show success message
+                alert(`Domain "${domainName}" added successfully!`);
+            });
+
+            // Close modal when clicking outside
+            document.getElementById('addDomainModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeAddDomainModal();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

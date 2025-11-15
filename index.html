@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning Journey Tracker - Home</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #f5f3ff 0%, #fef3f3 50%, #f0fdfa 100%);
+            min-height: 100vh;
+            color: #1f2937;
+        }
+
+        /* Navigation */
+        nav {
+            background: rgba(255, 255, 255, 0.9);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-brand {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #8b5cf6, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #6b7280;
+            font-weight: 500;
+            transition: color 0.3s;
+            cursor: pointer;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: #8b5cf6;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        /* Cards */
+        .card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        /* Home Page */
+        .welcome-section {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+        }
+
+        .welcome-section h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #8b5cf6, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .domain-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .domain-card {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .domain-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--domain-color);
+        }
+
+        .domain-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .domain-icon {
+            font-size: 2rem;
+        }
+
+        .domain-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: #e5e7eb;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--domain-color);
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+
+        .progress-text {
+            text-align: right;
+            font-size: 0.875rem;
+            color: #6b7280;
+            font-weight: 600;
+        }
+
+        .task-item {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            background: #f9fafb;
+            border-radius: 10px;
+            margin-bottom: 0.5rem;
+        }
+
+        .task-checkbox {
+            width: 20px;
+            height: 20px;
+            accent-color: #8b5cf6;
+        }
+
+        .delete-btn {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: rgb(223, 7, 7);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 0.25rem 0.5rem;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .delete-btn:hover {
+            background: #dc2626;
+        }
+
+        .task-completed {
+            text-decoration: line-through;
+            opacity: 0.6;
+        }
+
+        .btn-small {
+            background: linear-gradient(135deg, #8b5cf6, #ec4899);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .btn-small:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 10px rgba(139, 92, 246, 0.3);
+        }
+
+        /* Quote Section */
+        .quote-section {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(236, 72, 153, 0.1));
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .quote-text {
+            font-size: 1.25rem;
+            font-style: italic;
+            color: #4b5563;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                gap: 0.75rem;
+                font-size: 0.875rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-brand">📚 Learn Track</div>
+        <ul class="nav-links">
+            <li><a href="index.html" class="active">Home</a></li>
+            <li><a href="domains.html">Domains</a></li>
+            <li><a href="tasks.html">Tasks</a></li>
+            <li><a href="tech.html">Tech Stack</a></li>
+            <li><a href="analytics.html">Analytics</a></li>
+            <li><a href="focus.html">Focus</a></li>
+            <li><a href="profile.html">Profile</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <!-- HOME PAGE -->
+        <div id="home" class="page active">
+            <div class="welcome-section">
+                <h1>👋 Hey Kalpana!</h1>
+                <p style="font-size: 1.25rem; color: #6b7280;">Ready to learn and track your growth today?</p>
+            </div>
+
+            <div class="quote-section">
+                <p class="quote-text">"Consistency builds mastery."</p>
+            </div>
+
+            <h2 style="margin-bottom: 1.5rem;">🧭 Your Learning Domains</h2>
+            <div class="domain-grid">
+                <div class="card domain-card" style="--domain-color: #3b82f6;">
+                    <div class="domain-header">
+                        <span class="domain-icon">💻</span>
+                        <span class="domain-title">Web Development</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 72%;"></div>
+                    </div>
+                    <div class="progress-text">72% Complete</div>
+                </div>
+
+                <div class="card domain-card" style="--domain-color: #3776ab;">
+                    <div class="domain-header">
+                        <span class="domain-icon">🐍</span>
+                        <span class="domain-title">Python Programming</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 60%;"></div>
+                    </div>
+                    <div class="progress-text">60% Complete</div>
+                </div>
+
+                <div class="card domain-card" style="--domain-color: #10b981;">
+                    <div class="domain-header">
+                        <span class="domain-icon">📊</span>
+                        <span class="domain-title">Data Science</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 45%;"></div>
+                    </div>
+                    <div class="progress-text">45% Complete</div>
+                </div>
+
+                <div class="card domain-card" style="--domain-color: #f59e0b;">
+                    <div class="domain-header">
+                        <span class="domain-icon">🤖</span>
+                        <span class="domain-title">AI/ML</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 20%;"></div>
+                    </div>
+                    <div class="progress-text">20% Complete</div>
+                </div>
+
+                <div class="card domain-card" style="--domain-color: #ef4444;">
+                    <div class="domain-header">
+                        <span class="domain-icon">🔐</span>
+                        <span class="domain-title">Cybersecurity</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 10%;"></div>
+                    </div>
+                    <div class="progress-text">10% Complete</div>
+                </div>
+
+                <div class="card domain-card" style="--domain-color: #f97316;">
+                    <div class="domain-header">
+                        <span class="domain-icon">📚</span>
+                        <span class="domain-title">DSA In Java</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 0%;"></div>
+                    </div>
+                    <div class="progress-text">0% Complete</div>
+                </div>
+            </div>
+
+            <h2 style="margin: 2rem 0 1.5rem;">📅 This Week's Targets</h2>
+            <div class="card" style="position: relative;">
+                <input type="text" id="newWeeklyTarget" placeholder="Add a new weekly target..." style="width: 100%; padding: 0.5rem; border: 2px solid #e5e7eb; border-radius: 10px; font-size: 1rem; margin-bottom: 1rem;">
+                <button class="btn-small" onclick="addWeeklyTarget()" style="position: absolute; top: 0.5rem; right: 1.5rem;">Add</button>
+                <div id="weeklyTargetsContainer">
+                    <div class="task-item">
+                        <input type="checkbox" class="task-checkbox" onchange="toggleTask(this)">
+                        <span>Complete Web Development Tutorial</span>
+                        <button class="delete-btn" onclick="deleteWeeklyTarget(0)">🗑️</button>
+                    </div>
+                    <div class="task-item">
+                        <input type="checkbox" class="task-checkbox" onchange="toggleTask(this)">
+                        <span>Practice Python Coding Challenges</span>
+                        <button class="delete-btn" onclick="deleteWeeklyTarget(1)">🗑️</button>
+                    </div>
+                    <div class="task-item">
+                        <input type="checkbox" class="task-checkbox" onchange="toggleTask(this)">
+                        <span>Solve DSA Problems in Java</span>
+                        <button class="delete-btn" onclick="deleteWeeklyTarget(5)">🗑️</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Load domain data from localStorage and update home page
+        function loadDomainData() {
+            const saved = localStorage.getItem('domainData');
+            if (saved) {
+                const domainData = JSON.parse(saved);
+
+                // Update domain cards with saved progress
+                const domainCards = document.querySelectorAll('.domain-card');
+                domainCards.forEach(card => {
+                    const title = card.querySelector('.domain-title').textContent.trim();
+                    const domainKey = title === 'Web Development' ? 'webdev' :
+                                     title === 'Python Programming' ? 'python' :
+                                     title === 'Data Science' ? 'datascience' :
+                                     title === 'AI/ML' ? 'aiml' :
+                                     title === 'Cybersecurity' ? 'cyber' :
+                                     title === 'DSA In Java' ? 'dsajava' : null;
+
+                    if (domainKey && domainData[domainKey]) {
+                        const progressFill = card.querySelector('.progress-fill');
+                        const progressText = card.querySelector('.progress-text');
+
+                        progressFill.style.width = `${domainData[domainKey].progress}%`;
+                        progressText.textContent = `${domainData[domainKey].progress}% Complete`;
+                    }
+                });
+            }
+        }
+
+        // Load weekly targets from localStorage
+        function loadWeeklyTargets() {
+            const container = document.getElementById('weeklyTargetsContainer');
+            container.innerHTML = ''; // Clear existing content
+            const saved = localStorage.getItem('weeklyTargets');
+            if (saved) {
+                const weeklyTargets = JSON.parse(saved);
+                weeklyTargets.forEach((target, index) => {
+                    const taskItem = document.createElement('div');
+                    taskItem.className = 'task-item';
+                    taskItem.innerHTML = `
+                        <input type="checkbox" class="task-checkbox" onchange="toggleTask(this)" ${target.completed ? 'checked' : ''}>
+                        <span ${target.completed ? 'class="task-completed"' : ''}>${target.name}</span>
+                        <button class="delete-btn" onclick="deleteWeeklyTarget(${index})">🗑️</button>
+                    `;
+                    container.appendChild(taskItem);
+                });
+            } 
+
+            
+        }
+
+        // Toggle task completion and save to localStorage
+        function toggleTask(checkbox) {
+            const taskItem = checkbox.closest('.task-item');
+            const taskText = taskItem.querySelector('span');
+            const index = Array.from(taskItem.parentNode.children).indexOf(taskItem);
+            let weeklyTargets = JSON.parse(localStorage.getItem('weeklyTargets')) || [];
+            if (checkbox.checked) {
+                taskText.classList.add('task-completed');
+                weeklyTargets[index].completed = true;
+            } else {
+                taskText.classList.remove('task-completed');
+                weeklyTargets[index].completed = false;
+            }
+            localStorage.setItem('weeklyTargets', JSON.stringify(weeklyTargets));
+        }
+
+        // Delete weekly target
+        function deleteWeeklyTarget(index) {
+            let weeklyTargets = JSON.parse(localStorage.getItem('weeklyTargets')) || [];
+            weeklyTargets.splice(index, 1);
+            localStorage.setItem('weeklyTargets', JSON.stringify(weeklyTargets));
+            loadWeeklyTargets(); // Reload the list
+        }
+
+        // Add new weekly target
+        function addWeeklyTarget() {
+            const input = document.getElementById('newWeeklyTarget');
+            const targetName = input.value.trim();
+            if (targetName) {
+                let weeklyTargets = JSON.parse(localStorage.getItem('weeklyTargets')) || [];
+                weeklyTargets.unshift({ name: targetName, completed: false });
+                localStorage.setItem('weeklyTargets', JSON.stringify(weeklyTargets));
+                input.value = '';
+                loadWeeklyTargets(); // Reload the list
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadDomainData();
+            loadWeeklyTargets();
+        });
+    </script>
+</body>
+</html>
