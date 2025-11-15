@@ -4,84 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Learning Journey Tracker - Home</title>
+       <link rel="stylesheet" href="style.css" />
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #f5f3ff 0%, #fef3f3 50%, #f0fdfa 100%);
-            min-height: 100vh;
-            color: #1f2937;
-        }
-
-        /* Navigation */
-        nav {
-            background: rgba(255, 255, 255, 0.9);
-            -webkit-backdrop-filter: blur(10px);
-            backdrop-filter: blur(10px);
-            padding: 1rem 2rem;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .nav-brand {
-            font-size: 1.5rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #8b5cf6, #ec4899);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 1.5rem;
-            list-style: none;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: #6b7280;
-            font-weight: 500;
-            transition: color 0.3s;
-            cursor: pointer;
-        }
-
-        .nav-links a:hover, .nav-links a.active {
-            color: #8b5cf6;
-        }
-
-        /* Container */
-        .container {
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 0 2rem;
-        }
-
-        /* Cards */
-        .card {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 1.5rem;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
-        }
-
+       
         /* Home Page */
         .welcome-section {
             text-align: center;
@@ -231,10 +156,45 @@
             color: #4b5563;
         }
 
-        @media (max-width: 768px) {
+     
+
+        /* Tablet Styles */
+        @media (min-width: 481px) and (max-width: 768px) {
             .nav-links {
                 gap: 0.75rem;
                 font-size: 0.875rem;
+            }
+
+            .container {
+                padding: 0 1.5rem;
+            }
+
+            .domain-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 1rem;
+            }
+
+            .welcome-section h1 {
+                font-size: 2.25rem;
+            }
+
+            .task-item {
+                padding: 0.5rem;
+            }
+        }
+
+        /* Desktop Styles */
+        @media (min-width: 1024px) {
+            .container {
+                max-width: 1400px;
+            }
+
+            .domain-grid {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            }
+
+            .welcome-section h1 {
+                font-size: 3rem;
             }
         }
     </style>
@@ -252,6 +212,10 @@
             <li><a href="focus.html">Focus</a></li>
             <li><a href="profile.html">Profile</a></li>
         </ul>
+       <div class="hamburger" onclick="toggleMobileMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
     </nav>
 
     <div class="container">
@@ -337,23 +301,23 @@
 
             <h2 style="margin: 2rem 0 1.5rem;">📅 This Week's Targets</h2>
             <div class="card" style="position: relative;">
-                <input type="text" id="newWeeklyTarget" placeholder="Add a new weekly target..." style="width: 100%; padding: 0.5rem; border: 2px solid #e5e7eb; border-radius: 10px; font-size: 1rem; margin-bottom: 1rem;">
+                <input type="text" id="newWeeklyTarget" placeholder="Add a new weekly target..." aria-label="Enter a new weekly target" style="width: 100%; padding: 0.5rem; border: 2px solid #e5e7eb; border-radius: 10px; font-size: 1rem; margin-bottom: 1rem;">
                 <button class="btn-small" onclick="addWeeklyTarget()" style="position: absolute; top: 0.5rem; right: 1.5rem;">Add</button>
                 <div id="weeklyTargetsContainer">
                     <div class="task-item">
-                        <input type="checkbox" class="task-checkbox" onchange="toggleTask(this)">
+                        <input type="checkbox" class="task-checkbox" onchange="toggleTask(this)" aria-label="Mark task as completed">
                         <span>Complete Web Development Tutorial</span>
-                        <button class="delete-btn" onclick="deleteWeeklyTarget(0)">🗑️</button>
+                        <button class="delete-btn" onclick="deleteWeeklyTarget(0)" aria-label="Delete task">🗑️</button>
                     </div>
                     <div class="task-item">
-                        <input type="checkbox" class="task-checkbox" onchange="toggleTask(this)">
+                        <input type="checkbox" class="task-checkbox" onchange="toggleTask(this)" aria-label="Mark task as completed">
                         <span>Practice Python Coding Challenges</span>
-                        <button class="delete-btn" onclick="deleteWeeklyTarget(1)">🗑️</button>
+                        <button class="delete-btn" onclick="deleteWeeklyTarget(1)" aria-label="Delete task">🗑️</button>
                     </div>
                     <div class="task-item">
-                        <input type="checkbox" class="task-checkbox" onchange="toggleTask(this)">
+                        <input type="checkbox" class="task-checkbox" onchange="toggleTask(this)" aria-label="Mark task as completed">
                         <span>Solve DSA Problems in Java</span>
-                        <button class="delete-btn" onclick="deleteWeeklyTarget(5)">🗑️</button>
+                        <button class="delete-btn" onclick="deleteWeeklyTarget(5)" aria-label="Delete task">🗑️</button>
                     </div>
                 </div>
             </div>
@@ -388,6 +352,8 @@
                 });
             }
         }
+
+    
 
         // Load weekly targets from localStorage
         function loadWeeklyTargets() {
@@ -435,6 +401,8 @@
             loadWeeklyTargets(); // Reload the list
         }
 
+
+
         // Add new weekly target
         function addWeeklyTarget() {
             const input = document.getElementById('newWeeklyTarget');
@@ -448,10 +416,19 @@
             }
         }
 
+        // Toggle hamburger menu
+        function toggleMenu() {
+            const navLinks = document.querySelector('.nav-links');
+            const hamburger = document.querySelector('.hamburger');
+            navLinks.classList.toggle('active');
+            hamburger.classList.toggle('active');
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
             loadDomainData();
             loadWeeklyTargets();
         });
     </script>
+    <script src="script.js"></script>
 </body>
 </html>

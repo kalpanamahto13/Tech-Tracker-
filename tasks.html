@@ -4,83 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Learning Journey Tracker - Tasks</title>
+    <link rel="stylesheet" href="style.css" />
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #f5f3ff 0%, #fef3f3 50%, #f0fdfa 100%);
-            min-height: 100vh;
-            color: #1f2937;
-        }
-
-        /* Navigation */
-        nav {
-            background: rgba(255, 255, 255, 0.9);
-            -webkit-backdrop-filter: blur(10px);
-            backdrop-filter: blur(10px);
-            padding: 1rem 2rem;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .nav-brand {
-            font-size: 1.5rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #8b5cf6, #ec4899);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 1.5rem;
-            list-style: none;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: #6b7280;
-            font-weight: 500;
-            transition: color 0.3s;
-            cursor: pointer;
-        }
-
-        .nav-links a:hover, .nav-links a.active {
-            color: #8b5cf6;
-        }
-
-        /* Container */
-        .container {
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 0 2rem;
-        }
-
-        /* Cards */
-        .card {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 1.5rem;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
-        }
 
         /* Task Tracker */
         .task-form {
@@ -155,17 +80,132 @@
             font-weight: 600;
         }
 
-        @media (max-width: 768px) {
+        /* Mobile Styles */
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 1rem;
+            }
+
+            .task-form {
+                padding: 1rem;
+            }
+
+            .form-group {
+                margin-bottom: 1rem;
+            }
+
+            .form-group label {
+                font-size: 0.875rem;
+            }
+
+            .form-group input,
+            .form-group select {
+                padding: 0.625rem;
+                font-size: 0.875rem;
+            }
+
+            .btn {
+                padding: 0.625rem 1.25rem;
+                font-size: 0.875rem;
+            }
+
+            .task-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+                padding: 0.75rem;
+            }
+
+            .task-item > div:first-child {
+                width: 100%;
+            }
+
+            .task-item > div:last-child {
+                width: 100%;
+                justify-content: space-between;
+                flex-wrap: wrap;
+                gap: 0.5rem;
+            }
+
+            .tech-badge {
+                font-size: 0.75rem;
+                padding: 0.25rem 0.5rem;
+            }
+
+            .status-badge {
+                font-size: 0.75rem;
+                padding: 0.25rem 0.5rem;
+            }
+
+            .mark-complete-btn {
+                padding: 0.375rem 0.75rem;
+                font-size: 0.75rem;
+            }
+
+            .delete-btn {
+                padding: 0.375rem 0.75rem;
+                font-size: 0.75rem;
+            }
+
+            /* Filter section responsive */
+            .card:first-child {
+                padding: 1rem;
+            }
+
+            .card:first-child > div {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .card:first-child .form-group {
+                flex: 1;
+                min-width: auto;
+            }
+        }
+
+        /* Tablet Styles */
+        @media (min-width: 481px) and (max-width: 768px) {
             .nav-links {
                 gap: 0.75rem;
                 font-size: 0.875rem;
             }
+
+            .container {
+                padding: 0 1.5rem;
+            }
+
+            .task-form {
+                padding: 1.25rem;
+            }
+
+            .task-item {
+                padding: 0.875rem;
+            }
+
+            .card:first-child > div {
+                gap: 1rem;
+            }
         }
+
+        /* Desktop Styles */
+        @media (min-width: 1024px) {
+
+            .container {
+                max-width: 1400px;
+            }
+
+            .task-item > div:last-child {
+                gap: 0.75rem;
+            }
+        }
+
     </style>
 </head>
 <body>
     <!-- Navigation -->
+
     <nav>
+
         <div class="nav-brand">📚 Learn Track</div>
         <ul class="nav-links">
             <li><a href="index.html">Home</a></li>
@@ -175,8 +215,14 @@
             <li><a href="analytics.html">Analytics</a></li>
             <li><a href="focus.html">Focus</a></li>
             <li><a href="profile.html">Profile</a></li>
+
         </ul>
+        <div class="hamburger" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
     </nav>
+
 
     <div class="container">
         <!-- TASKS PAGE -->
@@ -188,7 +234,7 @@
                 <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
                     <div class="form-group" style="flex: 1; min-width: 200px;">
                         <label for="filterDomain">Domain</label>
-                        <select id="filterDomain" onchange="filterTasks()">
+                        <select id="filterDomain" onchange="filterTasks()" aria-label="Filter by Domain">
                             <option value="all">All Domains</option>
                             <option value="webdev">💻 Web Development</option>
                             <option value="python">🐍 Python Programming</option>
@@ -200,7 +246,7 @@
                     </div>
                     <div class="form-group" style="flex: 1; min-width: 200px;">
                         <label for="filterStatus">Status</label>
-                        <select id="filterStatus" onchange="filterTasks()">
+                        <select id="filterStatus" onchange="filterTasks()" aria-label="Filter by Status">
                             <option value="all">All Status</option>
                             <option value="in-progress">In Progress</option>
                             <option value="completed">Completed</option>
@@ -209,7 +255,7 @@
                     </div>
                     <div class="form-group" style="flex: 1; min-width: 200px;">
                         <label for="filterWeek">Week</label>
-                        <select id="filterWeek" onchange="filterTasks()">
+                        <select id="filterWeek" onchange="filterTasks()" aria-label="Filter by Week">
                             <option value="all">All Weeks</option>
                             <option value="this-week">This Week</option>
                             <option value="last-week">Last Week</option>
@@ -222,11 +268,11 @@
                 <h3 style="margin-bottom: 1rem;">📝 Add New Task</h3>
                 <div class="form-group">
                     <label for="taskName">Task Name</label>
-                    <input type="text" id="taskName" placeholder="e.g., Complete React Tutorial">
+                    <input type="text" id="taskName" placeholder="e.g., Complete React Tutorial" aria-label="Enter task name">
                 </div>
                 <div class="form-group">
                     <label for="taskDomain">Domain</label>
-                    <select id="taskDomain">
+                    <select id="taskDomain" aria-label="Select task domain">
                         <option value="webdev">💻 Web Development</option>
                         <option value="python">🐍 Python Programming</option>
                         <option value="datascience">📊 Data Science</option>
@@ -237,7 +283,7 @@
                 </div>
                 <div class="form-group">
                     <label for="taskStatus">Status</label>
-                    <select id="taskStatus">
+                    <select id="taskStatus" aria-label="Select task status">
                         <option value="in-progress">In Progress</option>
                         <option value="completed">Completed</option>
                         <option value="pending">Pending</option>
@@ -245,7 +291,7 @@
                 </div>
                 <div class="form-group">
                     <label for="taskPriority">Priority</label>
-                    <select id="taskPriority">
+                    <select id="taskPriority" aria-label="Select task priority">
                         <option value="low">Low</option>
                         <option value="medium">Medium</option>
                         <option value="high">High</option>
@@ -253,7 +299,7 @@
                 </div>
                 <div class="form-group">
                     <label for="taskHours">Hours Spent</label>
-                    <input type="number" id="taskHours" placeholder="0" min="0" step="0.5">
+                    <input type="number" id="taskHours" placeholder="0" min="0" step="0.5" aria-label="Enter hours spent on task">
                 </div>
                 <button class="btn" onclick="addTask()">Add Task</button>
             </div>
@@ -263,7 +309,7 @@
                 <div id="taskList">
                     <div class="task-item" style="justify-content: space-between;">
                         <div style="display: flex; gap: 0.75rem; align-items: center;">
-                            <input type="checkbox" class="task-checkbox" onchange="toggleTaskStatus(this)">
+                            <input type="checkbox" class="task-checkbox" onchange="toggleTaskStatus(this)" aria-label="Mark task as completed">
                             <span>Finish React Project</span>
                         </div>
                         <div style="display: flex; gap: 0.5rem; align-items: center;">
@@ -275,7 +321,7 @@
                     </div>
                     <div class="task-item" style="justify-content: space-between;">
                         <div style="display: flex; gap: 0.75rem; align-items: center;">
-                            <input type="checkbox" class="task-checkbox" onchange="toggleTaskStatus(this)">
+                            <input type="checkbox" class="task-checkbox" onchange="toggleTaskStatus(this)" aria-label="Mark task as completed">
                             <span>Train CNN Model</span>
                         </div>
                         <div style="display: flex; gap: 0.5rem; align-items: center;">
@@ -379,11 +425,16 @@
             taskItem.remove();
         }
 
+
         // Filter Tasks (placeholder)
         function filterTasks() {
             // Implementation for filtering tasks
             console.log('Filtering tasks...');
         }
+
+
     </script>
+    <script src="script.js"></script>
+
 </body>
 </html>
