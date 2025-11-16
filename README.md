@@ -21,77 +21,10 @@ Tech Tracker is a smart web-based dashboard that helps users stay updated with t
 
 ## 🛠️ Tech Stack
 
-* **Frontend:** HTML, CSS, JavaScript / React (optional)
-* **Backend:** Python Flask / Node.js (optional)
-* **Database:** MongoDB / Firebase / JSON file
-* **APIs:** GitHub Releases API, RSS feeds, custom sources
+* **Frontend:** HTML, CSS, JavaScript
+* **UI:** Minimal, aesthetic design
+* **Storage:** LocalStorage / JSON (optional backend supported)
 
----
-
-## 📂 Folder Structure (Suggested)
-
-```
-Tech-Tracker/
-│
-├── assets/
-│   └── images/
-│
-├── src/
-│   ├── app.js
-│   ├── styles.css
-│   └── tracker.js
-│
-├── README.md
-└── index.html
-```
-
----
-
-## 🔧 Installation & Setup
-
-### **1. Clone the repository**
-
-```
-git clone https://github.com/kalpanamahto13/Tech-Tracker.git
-```
-
-### **2. Navigate to the folder**
-
-```
-cd Tech-Tracker
-```
-
-### **3. Open in browser**
-
-Just open **index.html** or run using Live Server.
-
----
-
-## ▶️ Usage
-
-* Select the tech categories you want to track.
-* View real-time updates and trend graphs.
-* Add items to your watchlist.
-* Check version history and changelogs.
-* Receive recommendations.
-
----
-
-## 🌟 Screenshots (Add later)
-
-* Dashboard view
-* Tech detail view
-* Version tracking page
-
----
-
-## 📌 Roadmap
-
-* [ ] Add login system
-* [ ] Add notifications
-* [ ] Add AI-based recommendation engine
-* [ ] Add dark/light theme
-* [ ] Add mobile responsive UI
 
 ---
 
@@ -106,9 +39,3 @@ Pull requests are welcome. For major changes, please open an issue first.
 This project is licensed under the MIT License.
 
 ---
-
-If you want, I can also:
-✅ Add a logo
-✅ Add badges (stars, forks, license)
-✅ Add UI screenshots
-Just tell me!
